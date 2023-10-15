@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @Slf4j
 public class MainController {
-
     @GetMapping("/")
     public String index() {
         return "hello";
