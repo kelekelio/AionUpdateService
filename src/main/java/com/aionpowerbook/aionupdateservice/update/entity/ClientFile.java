@@ -1,5 +1,7 @@
 package com.aionpowerbook.aionupdateservice.update.entity;
 
+import com.aionpowerbook.aionupdateservice.update.dto.UpdateFileRequest;
+import com.aionpowerbook.aionupdateservice.update.enums.FileExtension;
 import com.aionpowerbook.aionupdateservice.update.enums.UpdateStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -22,6 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,7 +45,12 @@ public class ClientFile {
     @Enumerated(EnumType.STRING)
     private UpdateStatus updateStatus;
 
+    private String absolutePath;
+
     private String path;
+
+    @Enumerated(EnumType.STRING)
+    private FileExtension fileExtension;
 
     @NotNull
     @CreatedDate
@@ -55,5 +63,21 @@ public class ClientFile {
     @NotNull
     @Version
     private Integer version;
+
+    public static List<ClientFile> of(List<UpdateFileRequest> filesRequests, ClientUpdate clientUpdate) {
+        return filesRequests.parallelStream()
+                .map(request -> of(request, clientUpdate))
+                .toList();
+    }
+
+    public static ClientFile of(UpdateFileRequest request, ClientUpdate clientUpdate) {
+        return ClientFile.builder()
+                .absolutePath(request.getAbsolutePath())
+                .path(request.getPath())
+                .fileExtension(request.getExtension())
+                .clientUpdate(clientUpdate)
+                .updateStatus(UpdateStatus.PROCESSING)
+                .build();
+    }
 
 }

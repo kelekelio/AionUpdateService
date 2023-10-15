@@ -1,6 +1,7 @@
 package com.aionpowerbook.aionupdateservice.update.dto;
 
 import com.aionpowerbook.aionupdateservice.update.entity.ClientFile;
+import com.aionpowerbook.aionupdateservice.update.enums.FileExtension;
 import com.aionpowerbook.aionupdateservice.update.enums.UpdateStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ClientFileDto {
     private Long id;
+    private String absolutePath;
+    private String path;
+    private FileExtension extension;
     private UpdateStatus updateStatus;
     private LocalDateTime timestamp;
 
@@ -34,6 +38,9 @@ public class ClientFileDto {
     public static ClientFileDto of(ClientFile file) {
         return ClientFileDto.builder()
                 .id(file.getId())
+                .absolutePath(file.getAbsolutePath())
+                .path(file.getPath())
+                .extension(file.getFileExtension())
                 .updateStatus(file.getUpdateStatus())
                 .timestamp(file.getCreatedDateTime())
                 .build();

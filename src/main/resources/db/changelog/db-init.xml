@@ -78,4 +78,21 @@
 
         <dropColumn tableName="client_update" columnName="timestamp"/>
     </changeSet>
+
+    <changeSet id="3.2 - client file table" author="Kelekelio">
+        <addColumn tableName="client_update">
+            <column name="client_version" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="client_file">
+            <column name="absolute_path" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_extension" type="varchar">
+                <constraints checkConstraint="log_type in ('XML', 'DDS', 'HTML')" nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

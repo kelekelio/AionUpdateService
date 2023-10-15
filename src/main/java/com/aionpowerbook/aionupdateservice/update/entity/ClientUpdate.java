@@ -2,6 +2,7 @@ package com.aionpowerbook.aionupdateservice.update.entity;
 
 import com.aionpowerbook.aionupdateservice.update.dto.UpdateRequest;
 import com.aionpowerbook.aionupdateservice.update.enums.UpdateStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -42,10 +43,12 @@ public class ClientUpdate {
 
     private Long aionClientId;
 
+    private String clientVersion;
+
     @Enumerated(EnumType.STRING)
     private UpdateStatus updateStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUpdate")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUpdate", cascade = CascadeType.ALL)
     @OrderBy("createdDateTime desc")
     private List<ClientFile> files = new ArrayList<>();
 
@@ -62,9 +65,12 @@ public class ClientUpdate {
     private Integer version;
 
     public static ClientUpdate of(UpdateRequest updateRequest, Long id) {
-        return ClientUpdate.builder()
+        ClientUpdate update = ClientUpdate.builder()
+                .clientVersion(updateRequest.getClientVersion())
                 .aionClientId(id)
                 .updateStatus(UpdateStatus.PROCESSING)
                 .build();
+        update.setFiles(ClientFile.of(updateRequest.getFiles(), update));
+        return update;
     }
 }
