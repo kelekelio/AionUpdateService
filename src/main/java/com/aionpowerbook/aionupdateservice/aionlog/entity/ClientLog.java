@@ -1,6 +1,9 @@
 package com.aionpowerbook.aionupdateservice.aionlog.entity;
 
+import com.aionpowerbook.aionupdateservice.aionlog.enums.LogType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,6 +12,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,5 +27,13 @@ public class ClientLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long aionClient;
+
+    private Long aionClientId;
+
+    @Enumerated(EnumType.STRING)
+    private LogType logType;
+
+    private String message;
+
+    private LocalDateTime timestamp;
 }
