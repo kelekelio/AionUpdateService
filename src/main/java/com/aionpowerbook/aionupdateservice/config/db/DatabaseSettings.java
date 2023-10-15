@@ -13,8 +13,6 @@ public class DatabaseSettings {
     private String username;
     private String driver;
     private String password;
-    private String liquibase;
-    private String scheme;
 
     public DataSource createDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -22,7 +20,6 @@ public class DatabaseSettings {
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        dataSource.setSchema(scheme);
         return dataSource;
     }
 }
