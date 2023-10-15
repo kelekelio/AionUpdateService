@@ -1,0 +1,19 @@
+db:
+  settings:
+    0:
+      url: jdbc:postgresql://localhost:5433/aion_0
+      username: postgres
+      driver: org.postgresql.Driver
+      password: password
+      liquibase: classpath:db/changelog/aion_0_changelog.xml
+    1:
+      url: jdbc:postgresql://localhost:5433/aion_1
+      username: postgres
+      driver: org.postgresql.Driver
+      password: password
+      liquibase: classpath:db/changelog/aion_1_changelog.xml
+  liquibase:
+    enabled: true
+    changeLog: classpath:db/changelog/aion_0_changelog.xml
+server:
+  port: 8081
