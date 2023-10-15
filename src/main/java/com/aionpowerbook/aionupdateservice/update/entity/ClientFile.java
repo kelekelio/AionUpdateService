@@ -1,6 +1,5 @@
 package com.aionpowerbook.aionupdateservice.update.entity;
 
-import com.aionpowerbook.aionupdateservice.update.dto.UpdateRequest;
 import com.aionpowerbook.aionupdateservice.update.enums.UpdateStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -10,8 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,8 +22,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -34,20 +30,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class ClientUpdate {
+public class ClientFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long aionClientId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ClientUpdate clientUpdate;
 
     @Enumerated(EnumType.STRING)
     private UpdateStatus updateStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUpdate")
-    @OrderBy("createdDateTime desc")
-    private List<ClientFile> files = new ArrayList<>();
+    private String path;
 
     @NotNull
     @CreatedDate
@@ -61,10 +56,4 @@ public class ClientUpdate {
     @Version
     private Integer version;
 
-    public static ClientUpdate of(UpdateRequest updateRequest, Long id) {
-        return ClientUpdate.builder()
-                .aionClientId(id)
-                .updateStatus(UpdateStatus.PROCESSING)
-                .build();
-    }
 }
