@@ -5,7 +5,7 @@
 
     <changeSet id="1 - client log table" author="Kelekelio">
         <createTable tableName="client_log">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="aion_client_id" type="bigint">
@@ -15,6 +15,21 @@
                 <constraints checkConstraint="log_type in ('INFO', 'ERROR', 'WARNING')" nullable="false"/>
             </column>
             <column name="message" type="varchar"/>
+            <column name="timestamp" type="timestamp" defaultValueComputed="now()"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2 - client update table" author="Kelekelio">
+        <createTable tableName="client_update">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="aion_client_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="update_status" type="varchar">
+                <constraints checkConstraint="log_type in ('PROCESSING', 'SUCCESS', 'FAIL')" nullable="false"/>
+            </column>
             <column name="timestamp" type="timestamp" defaultValueComputed="now()"/>
         </createTable>
     </changeSet>

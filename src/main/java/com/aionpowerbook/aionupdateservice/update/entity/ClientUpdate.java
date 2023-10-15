@@ -1,6 +1,7 @@
-package com.aionpowerbook.aionupdateservice.aionlog.entity;
+package com.aionpowerbook.aionupdateservice.update.entity;
 
-import com.aionpowerbook.aionupdateservice.aionlog.enums.LogType;
+import com.aionpowerbook.aionupdateservice.update.dto.UpdateRequest;
+import com.aionpowerbook.aionupdateservice.update.enums.UpdateStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientLog {
+public class ClientUpdate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +31,15 @@ public class ClientLog {
     private Long aionClientId;
 
     @Enumerated(EnumType.STRING)
-    private LogType logType;
-
-    private String message;
+    private UpdateStatus updateStatus;
 
     private LocalDateTime timestamp;
+
+    public static ClientUpdate of(UpdateRequest updateRequest, Long id) {
+        return ClientUpdate.builder()
+                .aionClientId(id)
+                .updateStatus(UpdateStatus.PROCESSING)
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
 }
