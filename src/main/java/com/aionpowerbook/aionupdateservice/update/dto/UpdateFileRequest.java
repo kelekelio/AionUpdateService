@@ -1,7 +1,6 @@
 package com.aionpowerbook.aionupdateservice.update.dto;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
+import com.aionpowerbook.aionupdateservice.update.enums.FileExtension;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,19 +8,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateRequest {
+public class UpdateFileRequest {
 
     @NotNull
-    private String clientVersion;
+    private String absolutePath;
 
-    @NotEmpty
-    private List<@Valid UpdateFileRequest> files = new ArrayList<>();
+    @NotNull
+    private String path;
+
+    @NotNull
+    private FileExtension extension;
 }
