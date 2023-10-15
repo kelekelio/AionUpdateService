@@ -11,6 +11,6 @@ public interface ClientUpdateRepository extends JpaRepository<ClientUpdate, Long
     @Query("select u " +
             "from ClientUpdate u " +
             "where u.aionClientId = :id " +
-            "order by u.timestamp desc ")
+            "order by u.createdDateTime desc ")
     List<ClientUpdate> findAllForClientId(Long id);
 }

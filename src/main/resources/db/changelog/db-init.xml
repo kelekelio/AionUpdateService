@@ -33,4 +33,49 @@
             <column name="timestamp" type="timestamp" defaultValueComputed="now()"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="3 - client file table" author="Kelekelio">
+        <createTable tableName="client_file">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="client_update_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="update_status" type="varchar">
+                <constraints checkConstraint="log_type in ('PROCESSING', 'SUCCESS', 'FAIL')" nullable="false"/>
+            </column>
+            <column name="version" type="int(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3.1 - client file table" author="Kelekelio">
+        <addColumn tableName="client_file">
+            <column name="path" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="client_update">
+            <column name="version" type="int(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified_date_time" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <dropColumn tableName="client_update" columnName="timestamp"/>
+    </changeSet>
 </databaseChangeLog>
